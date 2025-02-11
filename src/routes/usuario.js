@@ -5,9 +5,10 @@ const usuarioController = require('../controllers/usuarioController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 router.post('/crear', [
-  authMiddleware,
+ // authMiddleware, // Protege la ruta
   check('nombre_usuario').notEmpty().withMessage('El nombre de usuario es obligatorio'),
   check('contrasena').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
+  check('email').isEmail().withMessage('Debe ser un email válido')
 ], usuarioController.crearUsuario);
 
 router.get('/', authMiddleware, usuarioController.obtenerUsuarios);
@@ -15,5 +16,6 @@ router.put('/:id', authMiddleware, usuarioController.actualizarUsuario);
 router.delete('/:id', authMiddleware, usuarioController.eliminarUsuario);
 
 module.exports = router;
+
 
 

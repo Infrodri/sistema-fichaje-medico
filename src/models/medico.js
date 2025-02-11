@@ -7,6 +7,11 @@ const Medico = sequelize.define('Medico', {
     autoIncrement: true,
     primaryKey: true,
   },
+  id_usuario: {  // Nueva columna para la relación
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    unique: true
+  },
   nombres: {
     type: DataTypes.STRING(100),
     allowNull: false,
@@ -31,4 +36,12 @@ const Medico = sequelize.define('Medico', {
   timestamps: false,
 });
 
+Medico.associate = (models) => {
+  Medico.belongsTo(models.Usuario, {
+    foreignKey: 'id_usuario',
+    as: 'usuario'
+  });
+};
+
 module.exports = Medico;
+

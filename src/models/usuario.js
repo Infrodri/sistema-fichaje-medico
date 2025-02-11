@@ -27,5 +27,29 @@ const Usuario = sequelize.define('Usuario', {
   timestamps: false,
 });
 
+// Relaciones
+Usuario.associate = (models) => {
+  // Relación N:M con Roles
+  Usuario.belongsToMany(models.Rol, {
+    through: 'Usuarios_Roles',
+    foreignKey: 'id_usuario',
+    otherKey: 'id_rol'
+  });
+
+  // Relación 1:1 con Médico
+  Usuario.hasOne(models.Medico, {
+    foreignKey: 'id_usuario',
+    as: 'medico'
+  });
+
+  // Relación con Auditoría
+  Usuario.hasMany(models.AuditoriaUsuario, {
+    foreignKey: 'id_usuario'
+  });
+};
+
 module.exports = Usuario;
+
+
+
 
