@@ -27,6 +27,7 @@ const PrepareStatement = require('./prepare_statement');
 const PreparedStatementHeader = require('./prepared_statement_header');
 const Query = require('./query');
 const RegisterSlave = require('./register_slave');
+const ResetConnection = require('./reset_connection');
 const ResultSetHeader = require('./resultset_header');
 const SSLRequest = require('./ssl_request');
 const TextRow = require('./text_row');
@@ -48,9 +49,10 @@ const ctorMap = {
   PreparedStatementHeader,
   Query,
   RegisterSlave,
+  ResetConnection,
   ResultSetHeader,
   SSLRequest,
-  TextRow
+  TextRow,
 };
 Object.entries(ctorMap).forEach(([name, ctor]) => {
   module.exports[name] = ctor;
@@ -58,7 +60,7 @@ Object.entries(ctorMap).forEach(([name, ctor]) => {
   if (process.env.NODE_DEBUG) {
     if (ctor.prototype.toPacket) {
       const old = ctor.prototype.toPacket;
-      ctor.prototype.toPacket = function() {
+      ctor.prototype.toPacket = function () {
         const p = old.call(this);
         p._name = name;
         return p;
